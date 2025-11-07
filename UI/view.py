@@ -14,6 +14,9 @@ class View:
         self.page.title = "Lab07"
         self.page.horizontal_alignment = "center"
         self.page.theme_mode = ft.ThemeMode.DARK
+        self._lst_Artefatto = None
+        self._dd_Epoc = None
+        self._dd_Museum = None
 
         # Alert
         self.alert = AlertManager(page)
@@ -36,10 +39,19 @@ class View:
         self.txt_titolo = ft.Text(value="Musei di Torino", size=38, weight=ft.FontWeight.BOLD)
 
         # --- Sezione 2: Filtraggio ---
-        # TODO
+        self._dd_Museum= ft.Dropdown(label="Museo",
+                               options=[],width=200)
+        self._dd_Epoc =ft.Dropdown(label="Epoca",
+                             options=[],width=200)
+
+        row = ft.Row([ self._dd_Museum, self._dd_Epoc],
+                     alignment=ft.MainAxisAlignment.CENTER)
+
+        self._btnshow= ft.ElevatedButton(text="Mostra Artefatti",
+                                         )
 
         # Sezione 3: Artefatti
-        # TODO
+        self._lst_Artefatto = ft.ListView(expand=True,spacing=10, padding=10)
 
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
@@ -53,10 +65,14 @@ class View:
             ft.Divider(),
 
             # Sezione 2: Filtraggio
-            # TODO
+            row,
+            ft.Divider(),
+            self._btnshow,
+            self._lst_Artefatto,
+
 
             # Sezione 3: Artefatti
-            # TODO
+            self._lst_Artefatto
         )
 
         self.page.scroll = "adaptive"
