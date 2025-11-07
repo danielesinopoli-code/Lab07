@@ -24,7 +24,14 @@ class ArtefattoDAO:
                     ORDER BY epoca ASC """
         try:
             cursor.execute(query)
-            for row
+            for row in cursor:
+                epoca = row[0]
+                return epoca
+            cursor.close()
+            cnx.close()
+        except Exception :
+            print("Errore nel DAO")
+
 
 
 
