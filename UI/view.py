@@ -1,6 +1,7 @@
 import flet as ft
 from UI.alert import AlertManager
 
+
 '''
     VIEW:
     - Rappresenta l'interfaccia utente
@@ -14,9 +15,9 @@ class View:
         self.page.title = "Lab07"
         self.page.horizontal_alignment = "center"
         self.page.theme_mode = ft.ThemeMode.DARK
-        self._lst_Artefatto = None
-        self._dd_Epoc = None
-        self._dd_Museum = None
+        self.lv_risultati = None
+        self.dd_epoca = None
+        self.dd_museo = None
 
         # Alert
         self.alert = AlertManager(page)
@@ -39,19 +40,30 @@ class View:
         self.txt_titolo = ft.Text(value="Musei di Torino", size=38, weight=ft.FontWeight.BOLD)
 
         # --- Sezione 2: Filtraggio ---
-        self._dd_Museum= ft.Dropdown(label="Museo",
-                               options=[],width=200)
-        self._dd_Epoc =ft.Dropdown(label="Epoca",
-                             options=[],width=200)
+        self.dd_museo = ft.Dropdown(
+            label="Museo",
+            options=[],
+            on_change=self.controller.on_cambio_museo,
+            width=300)
 
-        row = ft.Row([ self._dd_Museum, self._dd_Epoc],
-                     alignment=ft.MainAxisAlignment.CENTER)
+        self.dd_epoca = ft.Dropdown(
+            label="Epoca",
+            options=[],
+            on_change=self.controller.on_cambio_epoca,
+            width=300)
+
+        row = ft.Row([ self.dd_museo, self.dd_epoca],
+                     alignment=ft.MainAxisAlignment.CENTER,
+                     spacing=20)
 
         self._btnshow= ft.ElevatedButton(text="Mostra Artefatti",
+                                         icon=ft.Icons.SEARCH,
+                                         on_click=self.controller.handle_mostra_artefatti,
+
                                          )
 
         # Sezione 3: Artefatti
-        self._lst_Artefatto = ft.ListView(expand=True,spacing=10, padding=10)
+        self.lv_risultati = ft.ListView(expand=True,spacing=10, padding=10,auto_scroll=True)
 
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
@@ -68,11 +80,11 @@ class View:
             row,
             ft.Divider(),
             self._btnshow,
-            self._lst_Artefatto,
+
 
 
             # Sezione 3: Artefatti
-            self._lst_Artefatto
+            self.lv_risultati,
         )
 
         self.page.scroll = "adaptive"
