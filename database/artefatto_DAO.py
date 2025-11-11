@@ -19,17 +19,17 @@ class ArtefattoDAO:
             return []
 
         cursor = cnx.cursor(dictionary=True)
-        query = """ SELECT DISTINCT epoca 
-                    FROM artefatto 
-                    ORDER BY epoca ASC """
+        query = """SELECT DISTINCT epoca FROM artefatto WHERE epoca IS NOT NULL ORDER BY epoca ASC;"""
         try:
+            lst_epoche = []
             cursor.execute(query)
             for row in cursor:
-                epoca = row["epoca"]
-                return epoca
+               lst_epoche.append(row["epoca"])
+
             cursor.close()
             cnx.close()
-        except Exception :
+            return lst_epoche
+        except Exception  :
             print("Errore nel DAO")
 
     def get_artefatti_filtrati(self, nome_museo, nome_epoca):
